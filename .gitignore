@@ -1,0 +1,9 @@
+/.env
+/dist
+/node_modules
+/.idea
+/yarn-error.log
+!/cache/.gitkeep
+/cache
+!/output/.gitkeep
+/output

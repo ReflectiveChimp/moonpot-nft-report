@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>NFT Report - Generated at <%= date %></title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap">
+    <style>
+        html {
+            font-family: 'Ubuntu', sans-serif;
+            color: #fff;
+            background: #303050;
+            font-size: 14px;
+        }
+
+        body {
+            padding: 24px;
+        }
+
+        .nfts {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 1000px;
+            background: #262640;
+            position: relative;
+        }
+
+        .nft {
+            width: 5%;
+            position: relative;
+            background: black;
+        }
+
+        .nft-id {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1px;
+            line-height: 1;
+            font-size: 12px;
+            background: white;
+            color: black;
+        }
+
+        .nft-awarded .nft-inner {
+            opacity: 0.5;
+        }
+
+        .nft-awarded .nft-id {
+            color: red
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .count {
+            margin-top: 15px;
+        }
+
+        .count-entries {
+            margin-top: 5px;
+            margin-left: -5px;
+            margin-right: -5px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .count-entry {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<% pots.forEach(function(pot){ %>
+    <h1><%= pot.name %> (<%= pot.id %>)</h1>
+    <div class="nfts">
+        <% pot.nfts.forEach(function(nft){ %>
+            <% nft.ids.forEach(function(single){ %>
+                <div class="nft nft-<%= single.awarded ? 'awarded' : 'remaining' %>">
+                    <div class="nft-inner">
+                        <div class="nft-image"><img src="<%= single.meta.image %>"></div>
+                        <div class="nft-id"><%= single.id %></div>
+                    </div>
+                </div>
+            <% }); %>
+        <% }); %>
+    </div>
+    <div class="counts">
+        <% pot.nfts.forEach(function(nft){ %>
+            <div class="count">
+                <div>Counts (<%= nft.address %>)</div>
+                <div class="count-entries">
+                <% Object.entries(nft.initialCounts).forEach(function([name, count]){ %>
+                        <div class="count-entry"><strong><%= name %></strong> - <%= (nft.remainingCounts[name] || 0) %>/<%= count %></div>
+                <% }); %>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+<% }); %>
+</body>
+</html>
